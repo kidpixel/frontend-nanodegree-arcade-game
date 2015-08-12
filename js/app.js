@@ -8,6 +8,12 @@ var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
 }
 
+
+
+
+
+
+
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
@@ -15,6 +21,11 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 }
+
+
+
+
+
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
