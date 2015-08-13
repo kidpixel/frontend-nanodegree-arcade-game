@@ -41,9 +41,12 @@ Enemy.prototype.update = function(dt) {
     // all computers.
 
     var eRows = [60,143,226]; 
+    // (Debugging comment) Match values to 73, 156, and 239... 
+    // 13 apart!
+
     // Resets the x position of enemies once they go off screen.
     if (this.x < 500) {
-        this.x = this.x + this.speed * dt;  // All that is needed for enemy movement...
+        this.x = this.x + this.speed*dt;  // All that is needed for enemy movement...
     }
     else {
         //Enemy.prototype.setRandoms();  // Doesn't do what i thought it would.
@@ -52,6 +55,12 @@ Enemy.prototype.update = function(dt) {
         this.y = eRows[Math.round(Math.random()*2)];
     }
 
+    // Check Enemy vs Player collision here.
+    if ( (Math.abs(player.x-this.x)<100) && (player.y === (this.y+13)) ) {
+
+        console.log('Collision. ' + this.x + ' ' + this.y);
+        player.reset();
+    }
 
 };
 
@@ -66,13 +75,13 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 var playerObject = function() {
     this.hero = 'images/char-boy.png';
-    //Starting place for hero sprite
     this.x = 101;
-    this.y = 405;
+    this.y = 405; // How can I reuse this?  Duplicate code.
 };
 
 playerObject.prototype.update = function(){
 
+// I could use an allEnemies.forEach call and iterate through the enemies array here (like in the Engine.js updateEntities, but instead of doing all that, we can 'hijack' Enemy.prototype.update since we're checking for coordinate conditions there, too.)
 
 };
 
@@ -116,7 +125,7 @@ console.log('Player ' + this.x + ' ' + this.y); // For player debug purposes
 // Place the player object in a variable called player
 
 var allEnemies = [];
-for(var i = 0; i < 8; i++) {
+for(var enemies = 0; enemies < 8; enemies++) {
     allEnemies.push(new Enemy());
 } // After creating the array of enemies, create 8 and push instances of Enemy object into it.
 
