@@ -18,7 +18,7 @@ var Enemy = function() {
     this.y = eRows[Math.round(Math.random()*2)];
     // set minimum speed to "30" on up based on multiplier
     //this.speed = 30 + Math.random()*175;
-    this.speed = 30 + Math.random()*175;
+    this.speed = 42 + Math.random()*143;
 }
 
 // Doesn't do what i thought it would.
@@ -50,15 +50,15 @@ Enemy.prototype.update = function(dt) {
     }
     else {
         //Enemy.prototype.setRandoms();  // Doesn't do what i thought it would.
-        this.speed = 30 + Math.random()*175;
+        this.speed = 42 + Math.random()*143;
         this.x = -100; // If x position exceeds max x, above, bring it back.
         this.y = eRows[Math.round(Math.random()*2)];
     }
 
     // Check Enemy vs Player collision here.
-    if ( (Math.abs(player.x-this.x)<100) && (player.y === (this.y+13)) ) {
-
-        console.log('Collision. ' + this.x + ' ' + this.y);
+    // Since the blocks are 101 wide, check to see if this current enemy is less than a block away from the player, then also check to see if the player and the enemy are on the same "y" level.  UPDATE: Changing it to 80 to make it closer to player width instead.     
+    if ( (Math.abs(player.x-this.x)<80) && (player.y === (this.y+13)) ) {
+        console.log('Collision. ' + this.x + '(' + Math.round(this.x) +') '+ this.y + '(' + (this.y+13) +')'); // this debugging line kept me sane
         player.reset();
     }
 
@@ -73,29 +73,29 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-var playerObject = function() {
+var playerClass = function() {
     this.hero = 'images/char-boy.png';
     this.x = 101;
     this.y = 405; // How can I reuse this?  Duplicate code.
 };
 
-playerObject.prototype.update = function(){
+playerClass.prototype.update = function(){
 
 // I could use an allEnemies.forEach call and iterate through the enemies array here (like in the Engine.js updateEntities, but instead of doing all that, we can 'hijack' Enemy.prototype.update since we're checking for coordinate conditions there, too.)
 
 };
 
 //Draw the hero sprite on the board
-playerObject.prototype.render = function() {
+playerClass.prototype.render = function() {
     ctx.drawImage(Resources.get(this.hero), this.x, this.y);
 };
 
-playerObject.prototype.reset = function() {
+playerClass.prototype.reset = function() {
     this.x = 101;
-    this.y = 405; // How can I reuse the playerObject this.x and this.y ?
+    this.y = 405; // How can I reuse the playerClass this.x and this.y ?
 };
 
-playerObject.prototype.handleInput = function(allowedKeys) {
+playerClass.prototype.handleInput = function(allowedKeys) {
 
     if(allowedKeys === 'left') {
         this.x = this.x - 101;
@@ -127,9 +127,9 @@ console.log('Player ' + this.x + ' ' + this.y); // For player debug purposes
 var allEnemies = [];
 for(var enemies = 0; enemies < 8; enemies++) {
     allEnemies.push(new Enemy());
-} // After creating the array of enemies, create 8 and push instances of Enemy object into it.
+} // After creating the array of enemies, create a few and push instances of Enemy object into it.
 
-var player = new playerObject;
+var player = new playerClass;
 
 
 // This listens for key presses and sends the keys to your
