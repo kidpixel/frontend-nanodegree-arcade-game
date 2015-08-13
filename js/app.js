@@ -7,18 +7,38 @@ var Enemy = function() {
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
 
+
     // Functional block areas are 101x83 pixels according to my Photoshopping
     // x position ... -100 is left off screen starting position
     // 101 (above) times 5 is 505, so I'll send the off screen ones back after x > 505
-    this.x = -100;
-
-    // "y" starting point array in 83 pixel increments
-    var eRows = [60,143,226]; 
+    this.enitX = -100;
+    // this.x = -100;
     // generates a random integer between 0 and 2 to select the y row
-    this.y = eRows[Math.round(Math.random()*2)];
+    this.enitY = this.initializeY(); 
+    // this.y = eRows[Math.round(Math.random()*2)];
     // set minimum speed to "30" on up based on multiplier
     //this.speed = 30 + Math.random()*175;
+    //this.speed = 42 + Math.random()*143;
+
+    console.log(this.enitX);
+    console.log(this.enitY); //Made me realize i should return this.y in initializeY
+    this.reset();
+}
+
+Enemy.prototype.reset = function() {
     this.speed = 42 + Math.random()*143;
+    this.x = this.enitX;
+    //this.y = this.initializeY(); 
+    this.initializeY();
+};
+
+Enemy.prototype.initializeY = function () {
+    // "y" starting point array in 83 pixel increments
+    var eRows = [60,143,226]; 
+    // (Debugging comment) Match values to 73, 156, and 239... 
+    // 13 apart!
+    this.y = eRows[Math.round(Math.random()*2)];
+    return this.y;
 }
 
 // Update the enemy's position, required method for game
@@ -27,20 +47,14 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-
-    var eRows = [60,143,226]; 
-    // (Debugging comment) Match values to 73, 156, and 239... 
-    // 13 apart!
-
+    
     // Resets the x position of enemies once they go off screen.
     if (this.x < 500) {
         this.x = this.x + this.speed*dt;  // All that is needed for enemy movement...
     }
     else {
         //Enemy.prototype.setRandoms();  // Doesn't do what i thought it would.
-        this.speed = 42 + Math.random()*143;
-        this.x = -100; // If x position exceeds max x, above, bring it back.
-        this.y = eRows[Math.round(Math.random()*2)];
+        this.reset();
     }
 
     // Check Enemy vs Player collision here instead.
@@ -51,7 +65,6 @@ Enemy.prototype.update = function(dt) {
     }
 
 };
-
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
