@@ -56,8 +56,6 @@ Enemy.prototype.update = function(dt) {
 };
 
 
-
-
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -83,10 +81,33 @@ playerObject.prototype.render = function() {
     ctx.drawImage(Resources.get(this.hero), this.x, this.y);
 };
 
-playerObject.prototype.handleInput = function() {
+playerObject.prototype.reset = function() {
+    this.x = 101;
+    this.y = 405; // How can I reuse the playerObject this.x and this.y ?
+};
 
-// Not yet.
+playerObject.prototype.handleInput = function(allowedKeys) {
 
+    if(allowedKeys === 'left') {
+        this.x = this.x - 101;
+        if (this.x < 0) { this.x = this.x + 101 };
+    }
+    if(allowedKeys === 'right') {
+        this.x = this.x + 101;
+        if(this.x > 404) { this.x = this.x - 101 };
+    }
+    if(allowedKeys === 'down') {
+        this.y = this.y + 83;
+        if(this.y > 405) { this.y = this.y - 83 };
+    }
+    if(allowedKeys === 'up') { this.y = this.y - 83 };
+
+    if(this.y < 50) { 
+        this.reset();
+        console.log("Victory!");
+    }
+
+console.log('Player ' + this.x + ' ' + this.y); // For player debug purposes
 };
 
 
@@ -97,7 +118,7 @@ playerObject.prototype.handleInput = function() {
 var allEnemies = [];
 for(var i = 0; i < 8; i++) {
     allEnemies.push(new Enemy());
-} // After creating the array of enemies, create 20 and push instances of Enemy object into it.
+} // After creating the array of enemies, create 8 and push instances of Enemy object into it.
 
 var player = new playerObject;
 
