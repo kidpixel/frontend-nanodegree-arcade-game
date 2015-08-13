@@ -21,18 +21,6 @@ var Enemy = function() {
     this.speed = 42 + Math.random()*143;
 }
 
-// Doesn't do what i thought it would.
-/*
-Enemy.prototype.setRandoms = function() {
-        console.log('hi');
-        var eRows = [60,143,226]; 
-        this.speed = 30 + Math.random()*175;
-        this.x = -100; // If x position exceeds max x, above, bring it back.
-        this.y = eRows[Math.round(Math.random()*2)];
-        return this.x,this.y,this.speed;
-}
-*/
-
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
@@ -55,9 +43,9 @@ Enemy.prototype.update = function(dt) {
         this.y = eRows[Math.round(Math.random()*2)];
     }
 
-    // Check Enemy vs Player collision here.
-    // Since the blocks are 101 wide, check to see if this current enemy is less than a block away from the player, then also check to see if the player and the enemy are on the same "y" level.  UPDATE: Changing it to 80 or less to make it closer to player width instead.   Around 50 seems to be where it feels good yet still collides.
-    if ( (Math.abs(player.x-this.x)<50) && (player.y === (this.y+13)) ) {
+    // Check Enemy vs Player collision here instead.
+    // Since the blocks are 101 wide, check to see if this current enemy is less than a block away from the player, then also check to see if the player and the enemy are on the same "y" level.  UPDATE: Changing it to 80 or less to make it closer to player width instead.   Around 50-ish seems to be where it feels good yet still collides.
+    if ( (Math.abs(player.x-this.x)<60) && (player.y === (this.y+13)) ) {
         console.log('Collision. ' + this.x + '(' + Math.round(this.x) +') '+ this.y + '(' + (this.y+13) +')'); // this debugging line kept me sane
         player.reset();
     }
@@ -75,8 +63,9 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 var playerClass = function() {
     this.hero = 'images/char-boy.png';
-    this.x = 101;
-    this.y = 405; // How can I reuse this?  Duplicate code.
+    this.initX = 101;
+    this.initY = 405; 
+    this.reset();
 };
 
 playerClass.prototype.update = function(){
@@ -91,8 +80,8 @@ playerClass.prototype.render = function() {
 };
 
 playerClass.prototype.reset = function() {
-    this.x = 101;
-    this.y = 405; // How can I reuse the playerClass this.x and this.y ?
+    this.x = this.initX;
+    this.y = this.initY; 
 };
 
 playerClass.prototype.handleInput = function(allowedKeys) {
