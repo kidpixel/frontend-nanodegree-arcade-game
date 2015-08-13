@@ -56,8 +56,8 @@ Enemy.prototype.update = function(dt) {
     }
 
     // Check Enemy vs Player collision here.
-    // Since the blocks are 101 wide, check to see if this current enemy is less than a block away from the player, then also check to see if the player and the enemy are on the same "y" level.  UPDATE: Changing it to 80 to make it closer to player width instead.     
-    if ( (Math.abs(player.x-this.x)<80) && (player.y === (this.y+13)) ) {
+    // Since the blocks are 101 wide, check to see if this current enemy is less than a block away from the player, then also check to see if the player and the enemy are on the same "y" level.  UPDATE: Changing it to 80 or less to make it closer to player width instead.   Around 50 seems to be where it feels good yet still collides.
+    if ( (Math.abs(player.x-this.x)<50) && (player.y === (this.y+13)) ) {
         console.log('Collision. ' + this.x + '(' + Math.round(this.x) +') '+ this.y + '(' + (this.y+13) +')'); // this debugging line kept me sane
         player.reset();
     }
