@@ -12,33 +12,26 @@ var Enemy = function() {
     // x position ... -100 is left off screen starting position
     // 101 (above) times 5 is 505, so I'll send the off screen ones back after x > 505
     this.enitX = -100;
-    // this.x = -100;
-    // generates a random integer between 0 and 2 to select the y row
     this.enitY = this.initializeY(); 
-    // this.y = eRows[Math.round(Math.random()*2)];
-    // set minimum speed to "30" on up based on multiplier
-    //this.speed = 30 + Math.random()*175;
-    //this.speed = 42 + Math.random()*143;
 
-    console.log(this.enitX);
-    console.log(this.enitY); //Made me realize i should return this.y in initializeY
+    console.log(this.enitX); // Debug to console.
+    console.log(this.enitY); // Made me realize i should return this.y in initializeY
     this.reset();
 }
 
 Enemy.prototype.reset = function() {
-    this.speed = 42 + Math.random()*143;
-    this.x = this.enitX;
-    //this.y = this.initializeY(); 
-    this.initializeY();
+    this.speed = 88 + Math.random()*228;    // Speed calc with min speed + multiplier
+    this.x = this.enitX;                    // x goes back to initial position
+    this.initializeY();                     // get the "row" the enemy will appear on
 };
 
 Enemy.prototype.initializeY = function () {
     // "y" starting point array in 83 pixel increments
-    var eRows = [60,143,226]; 
-    // (Debugging comment) Match values to 73, 156, and 239... 
-    // 13 apart!
+    var eRows = [60,143,309];  // 226 old third row value
+    // (Debugging comment) Match values to 73, 156, and 239... 13 apart for collision calculation. 
+    // generates a random integer between 0 and 2 to select the y row
     this.y = eRows[Math.round(Math.random()*2)];
-    return this.y;
+    return this.y;                          
 }
 
 // Update the enemy's position, required method for game
@@ -49,11 +42,10 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     
     // Resets the x position of enemies once they go off screen.
-    if (this.x < 500) {
+    if (this.x < 600) {
         this.x = this.x + this.speed*dt;  // All that is needed for enemy movement...
     }
     else {
-        //Enemy.prototype.setRandoms();  // Doesn't do what i thought it would.
         this.reset();
     }
 
@@ -105,7 +97,7 @@ playerClass.prototype.handleInput = function(allowedKeys) {
     }
     if(allowedKeys === 'right') {
         this.x = this.x + 101;
-        if(this.x > 404) { this.x = this.x - 101 };
+        if(this.x > 505) { this.x = this.x - 101 };
     }
     if(allowedKeys === 'down') {
         this.y = this.y + 83;
@@ -132,7 +124,8 @@ for(var enemies = 0; enemies < 8; enemies++) {
 } // After creating the array of enemies, create a few and push instances of Enemy object into it.
 
 var player = new playerClass;
-
+var gem = new Enemy;
+console.log(gem);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
