@@ -3,26 +3,38 @@ var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-zomboni.png';
-
-
     // Functional block areas are 101x83 pixels according to my Photoshopping
     // x position ... -100 is left off screen starting position
     // 101 (above) times 5 is 505, so I'll send the off screen ones back after x > 505
-    this.enitX = 300;
+    this.enitX = 600;
     this.enitY = this.initializeY(); 
 
     console.log(this.enitX); // Debug to console.
     console.log(this.enitY); // Made me realize i should return this.y in initializeY
     this.reset();
+    this.setSprite();
 }
 
 Enemy.prototype.reset = function() {
     this.speed = 88 + Math.random()*228;    // Speed calc with min speed + multiplier
     this.x = this.enitX;                    // x goes back to initial position
     this.initializeY();                     // get the "row" the enemy will appear on
+    this.sprite = this.setSprite();
+};
+
+Enemy.prototype.setSprite = function() {
+// The image/sprite for our enemies, this uses
+    // a helper we've provided to easily load images
+    console.log('Enemy Speed: ' + this.speed);
+    //this.sprite = 'images/enemy-zomboni.png';
+    if (this.speed <= 316 && this.speed >= 228) {
+        this.sprite = 'images/enemy-zomboni-red.png';
+    } else if (this.speed <= 227 && this.speed >= 120) {
+        this.sprite = 'images/enemy-zomboni-yellow.png';
+    } else if (this.speed <= 119 && this.speed >= 0) {
+        this.sprite = 'images/enemy-zomboni-green.png';
+    }
+    return this.sprite;
 };
 
 Enemy.prototype.initializeY = function () {
@@ -42,7 +54,7 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     
     // Resets the x position of enemies once they go off screen.
-    if (this.x < 600) {
+    if (this.x > -100) {
         this.x = this.x - this.speed*dt;  // All that is needed for enemy movement...
         // changing to negative reverses the direction of movement
     }
@@ -52,7 +64,7 @@ Enemy.prototype.update = function(dt) {
 
     // Check Enemy vs Player collision here instead.
     // Since the blocks are 101 wide, check to see if this current enemy is less than a block away from the player, then also check to see if the player and the enemy are on the same "y" level.  UPDATE: Changing it to 80 or less to make it closer to player width instead.   Around 50-ish seems to be where it feels good yet still collides.
-    if ( (Math.abs(player.x-this.x)<60) && (player.y === (this.y+13)) ) {
+    if ( (Math.abs(player.x-this.x)<80) && (player.y === (this.y+13)) ) {
         console.log('Collision. ' + this.x + '(' + Math.round(this.x) +') '+ this.y + '(' + (this.y+13) +')'); // this debugging line kept me sane
         player.reset();
     }
@@ -69,7 +81,7 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 var playerClass = function() {
     this.hero = 'images/char-boy.png';
-    this.initX = 101;
+    this.initX = 505;
     this.initY = 405; 
     this.reset();
 };

@@ -174,6 +174,9 @@ var Engine = (function(global) {
         'images/enemy-bug.png',
         'images/char-boy.png',
         'images/enemy-zomboni.png',
+        'images/enemy-zomboni-red.png',
+        'images/enemy-zomboni-yellow.png',
+        'images/enemy-zomboni-green.png',
         'images/ice-block.png'
     ]);
     Resources.onReady(init);
