@@ -5,13 +5,13 @@ var Enemy = function() {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+    this.sprite = 'images/enemy-zomboni.png';
 
 
     // Functional block areas are 101x83 pixels according to my Photoshopping
     // x position ... -100 is left off screen starting position
     // 101 (above) times 5 is 505, so I'll send the off screen ones back after x > 505
-    this.enitX = -100;
+    this.enitX = 300;
     this.enitY = this.initializeY(); 
 
     console.log(this.enitX); // Debug to console.
@@ -43,7 +43,8 @@ Enemy.prototype.update = function(dt) {
     
     // Resets the x position of enemies once they go off screen.
     if (this.x < 600) {
-        this.x = this.x + this.speed*dt;  // All that is needed for enemy movement...
+        this.x = this.x - this.speed*dt;  // All that is needed for enemy movement...
+        // changing to negative reverses the direction of movement
     }
     else {
         this.reset();
