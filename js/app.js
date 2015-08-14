@@ -80,7 +80,7 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var playerClass = function() {
-    this.hero = 'images/char-boy.png';
+    this.hero = 'images/char-crazydave-left.png';
     this.initX = 505;
     this.initY = 405; 
     this.reset();
@@ -106,10 +106,12 @@ playerClass.prototype.handleInput = function(allowedKeys) {
 
     if(allowedKeys === 'left') {
         this.x = this.x - 101;
+        this.hero = 'images/char-crazydave-left.png';
         if (this.x < 0) { this.x = this.x + 101 };
     }
     if(allowedKeys === 'right') {
         this.x = this.x + 101;
+        this.hero = 'images/char-crazydave-right.png';
         if(this.x > 505) { this.x = this.x - 101 };
     }
     if(allowedKeys === 'down') {
