@@ -3,32 +3,59 @@ var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
+    // Define the enemy-hero kill sound
     this.killSound = new Audio('audio/pvz-crazydave-win.mp3');
 
-    // Functional block areas are 101x83 pixels according to my Photoshopping
-    // x position ... -100 is left off screen starting position
-    // 101 (above) times 5 is 505, so I'll send the off screen ones back after x > 505
+    /* Functional block areas are 101x83 pixels according to my Photoshopping
+     * "Old" x-position was -100, but when I reversed the flow of the enemies, 
+     * the starting enemy init position (or enitX) is 600.
+     */
     this.enitX = 600;
+    /* Initialize enemy y-position outside of this block because it is called
+     * first to instantiate enemies, but also to reset and randomize them.
+     */
     this.enitY = this.initializeY();
 
-    console.log(this.enitX); // Debug to console.
+    console.log(this.enitX); // Debug info to console.
     console.log(this.enitY); // Made me realize i should return this.y in initializeY
-    this.reset();
+    
+    /* Instead of completely initializing all of the this.x and this.y here,
+     * there was value in reducing code duplication by initializing this.x in
+     * this.reset() and this.y through this.initializeY()
+     */
+    this.reset(); 
+    /* In my way to mix it up a bit, i wanted to give 3 different ranges of color
+     * based on the speed at shich each enemy was randomized to. 
+     * setSprite() does that, and a TO-DO for me here is to make this implementation
+     * a bit more elegant by setting 3 range variables in this block or simply
+     * finding a better implementation as it feels clunky.
+     */
     this.setSprite();
 };
 
 Enemy.prototype.reset = function() {
-    this.speed = 88 + Math.random() * 228; // Speed calc with min speed + multiplier
-    this.x = this.enitX; // x goes back to initial position
-    this.initializeY(); // get the "row" the enemy will appear on
+    /* Set minimum speed value and then add to it a value that can be from
+     * near zero up to nearly 228, resulting in a 88 to 316 "effective range."
+     */
+    this.speed = 88 + Math.random() * 228; 
+    // Resets x-position back to starting position
+    this.x = this.enitX; 
+    // Randomly alculate and set the "row" the enemy will appear on.
+    this.initializeY(); 
+    // As above, call setSprite() code to re-randomize color based on speed.
     this.sprite = this.setSprite();
 };
 
 Enemy.prototype.setSprite = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    console.log('Enemy Speed: ' + this.speed);
-    //this.sprite = 'images/enemy-zomboni.png';
+    
+    console.log('Enemy Speed: ' + this.speed);  // Debug code.
+    
+    /* Originally just a blue Zomboni enemy, once my code worked I wanted to
+     * make the enemies less boring. This calculates the red fast ones, 
+     * the yellow medium speed ones, and green slow/blind Zombinis.
+     */
     if (this.speed <= 316 && this.speed >= 228) {
         this.sprite = 'images/enemy-zomboni-red.png';
     } else if (this.speed <= 227 && this.speed >= 120) {
@@ -40,10 +67,12 @@ Enemy.prototype.setSprite = function() {
 };
 
 Enemy.prototype.initializeY = function() {
-    // "y" starting point array in 83 pixel increments
-    var eRows = [60, 143, 309]; // 226 old third row value
-    // (Debugging comment) Match values to 73, 156, and 239... 13 apart for collision calculation. 
-    // generates a random integer between 0 and 2 to select the y row
+    /* Sets static "y" starting point array in 83 pixel increments
+     * 226 was old third row value before I put a gras strip inbetween 2 and 3.
+     */
+    var eRows = [60, 143, 309]; 
+
+    // Generates a random integer between 0 and 2 to select the y-position
     this.y = eRows[Math.round(Math.random() * 2)];
     return this.y;
 };
@@ -71,7 +100,13 @@ Enemy.prototype.update = function(dt) {
      * still collides.
      */
     if ((Math.abs(player.x - this.x) < 80) && (player.y === (this.y + 13))) {
-        console.log('Collision. ' + this.x + '(' + Math.round(this.x) + ') ' + this.y + '(' + (this.y + 13) + ')'); // this debugging line kept me sane
+
+        /* (Debugging comment) Match values to 73, 156, and 239... 
+         * 13 apart for collision calculation. This kept me sane.
+         */
+        console.log('Collision. ' + this.x + '(' + Math.round(this.x) + ') ' + this.y + '(' + (this.y + 13) + ')'); 
+
+        // Play the collision sound and then reset the player.
         this.killSound.play();
         player.reset();
     }
@@ -83,8 +118,10 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// functions to make: reset update render... 
-
+/* Introduce a gem class. The gem should behave similar to an enemy, but  
+ * not move and draw at the "ground level" underneath the Zombonis.
+ * This gemClass block sets some audio, speed, and sprite image.
+ */ 
 var gemClass = function() {
     console.log('gemclass');
 
@@ -95,29 +132,48 @@ var gemClass = function() {
     this.audio[0] = new Audio('audio/pvz-tacocrunch.mp3');
     this.audio[1] = new Audio('audio/pvz-zombiescoming.mp3');
     this.audio[1].play();
-    this.enitX = 404; // Starting x value for taco. 
+
+    // Starting x-position for Crazy Dave's infamous taco. 
+    this.enitX = 404; 
+
+    /* I was thinking about making the tacos move in incremental "jumps" but
+     * kept them static and only move when the hero touches them.
+     * Keeping this here in case I want to implement something.
+     */
     this.speed = 0;
+
+    /* Set the "gem" sprite to the taco and then call reser() similar to 
+     * the way I do it above in the Enemy class.
+     */
     this.sprite = 'images/gem-daves-taco.png';
     this.reset();
 };
-// Sets speed, x, calls for y, and sets sprite image
+
+// Sets gem x-position and y-position 
 gemClass.prototype.reset = function() {
     console.log('reset');
     var eRows = [60, 143, 309]; // 226 old third row value
+
     // Move the taco along the x-axis on reset 101 to 404 to the left of enitX
     this.x = this.enitX - (101 * Math.round(Math.random() * 3));
-    // Reverence: Math.round(Math.random()*2)  does 0-2, so 3 values
+
+    // Reference: Math.round(Math.random()*2) does 0-2, so 3 values
     this.y = eRows[Math.round(Math.random() * 2)];
 };
 
-// 
-// Collision gets calculated here
+
+// Taco "gem" collision gets calculated here
 gemClass.prototype.update = function() {
-    console.log('update');
+    console.log('update'); // Debugging code.
+
+    // Taco-hero collision - better known as a TACOLLISION.
     if ((Math.abs(player.x - this.x) < 50) && (player.y === (this.y + 13))) {
         console.log('TACOLLISION. ' + this.x + '(' + Math.round(this.x) + ') ' + this.y + '(' + (this.y + 13) + ')');
-        this.audio[0].play(); // play taco crunch sound
-        // player.reset();  in this case don't reset player, but increment a 'tacowin'
+
+        /* Play the taco crunch sound to inicate a player has successfully 
+         * allowed Crazy Dave to eat his taco... again.  Then re-randomize gem.
+         */
+        this.audio[0].play(); 
         this.reset();
     }
 };
@@ -131,23 +187,19 @@ gemClass.prototype.render = function() {
 // a handleInput() method.
 var playerClass = function() {
     this.hero = 'images/char-crazydave-left.png';
+
+    // Similar to the audio arrays defined elsewhere, above.
     this.audio = [];
     this.audio[0] = new Audio('audio/pvz-music.mp3');
     this.audio[1] = new Audio('audio/pvz-yeehaa.mp3');
 
+    // Here, an 'ended' event is listened for so music can be looped.
     this.audio[0].addEventListener('ended', function() {
         this.currentTime = 0;
         this.play();
     }, false);
     this.audio[0].play();
-    /*
-    myAudio = new Audio('audio/pvz-music.mp3'); 
-    myAudio.addEventListener('ended', function() {
-        this.currentTime = 0;
-        this.play();
-    }, false);
-    myAudio.play();
-    */ // working code for background music
+
     this.initX = 505;
     this.initY = 405;
     this.reset();
@@ -155,24 +207,33 @@ var playerClass = function() {
 
 playerClass.prototype.update = function() {
 
-    // I could use an allEnemies.forEach call and iterate through the enemies array here (like in the Engine.js updateEntities, but instead of doing all that, we can 'hijack' Enemy.prototype.update since we're checking for coordinate conditions there, too.)
+    /* I could use an allEnemies.forEach call and iterate through the enemies 
+     * array here (like in the Engine.js updateEntities, but instead of
+     * doing all that, we can 'hijack' Enemy.prototype.update since we're
+     * checking for coordinate conditions there, too.)
+     */   
 
 };
 
-//Draw the hero sprite on the board
+// Draw the hero sprite on the board
 playerClass.prototype.render = function() {
     ctx.drawImage(Resources.get(this.hero), this.x, this.y);
 };
 
+/* So we can reset the player from both "winning" in handleInput and
+ * on an enemy collision, reset() here sets this.x and this.y instead.
+ */ 
 playerClass.prototype.reset = function() {
     this.x = this.initX;
     this.y = this.initY;
 };
 
+// Handle the player's keyboard input via the UP, LEFT, DOWN, RIGHT arrows.
 playerClass.prototype.handleInput = function(allowedKeys) {
 
     if (allowedKeys === 'left') {
         this.x = this.x - 101;
+        // Player presses left, Crazy Dave faces left.
         this.hero = 'images/char-crazydave-left.png';
         if (this.x < 0) {
             this.x = this.x + 101;
@@ -180,6 +241,7 @@ playerClass.prototype.handleInput = function(allowedKeys) {
     }
     if (allowedKeys === 'right') {
         this.x = this.x + 101;
+        // Player presses right, Crazy Dave faces right... CRAZY!
         this.hero = 'images/char-crazydave-right.png';
         if (this.x > 505) {
             this.x = this.x - 101;
@@ -195,8 +257,11 @@ playerClass.prototype.handleInput = function(allowedKeys) {
         this.y = this.y - 83;
     }
 
+    // Checks if our hero has "won" by getting to the top.
     if (this.y < 50) {
-        this.audio[1].play(); // yehaa
+
+        // Play the "yehaa" sound.
+        this.audio[1].play(); 
         this.reset();
         console.log("Victory!");
     }
@@ -211,16 +276,20 @@ playerClass.prototype.handleInput = function(allowedKeys) {
 
 var allEnemies = [];
 for (var enemies = 0; enemies < 8; enemies++) {
-    // Placing the taco first in array sends it to the 'back' of the stack.
+ 
+    /* Placing the taco first in array sends it to the 'back' of the stack.
+     * This felt better than setting it on top and always being above the 
+     * Zombonis riding underneath it.  0 = bottom  8 = on top.
+     */
     if (enemies === 0) {
         allEnemies.push(new gemClass());
     }
+
+    // Push all the Zomboni instances into the array as it loops.
     allEnemies.push(new Enemy());
-} // After creating the array of enemies, create a few and push instances of Enemy object into it.
+} 
 
 var player = new playerClass();
-// var gem = new gemClass();  // Didn't end up needing/using this.
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -234,3 +303,7 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+    /*
+     *
+     */
