@@ -121,6 +121,12 @@ gemClass.prototype.render = function () {
 // a handleInput() method.
 var playerClass = function() {
     this.hero = 'images/char-crazydave-left.png';
+    myAudio = new Audio('audio/pvz-music.mp3'); 
+    myAudio.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    myAudio.play();
     this.initX = 505;
     this.initY = 405; 
     this.reset();
