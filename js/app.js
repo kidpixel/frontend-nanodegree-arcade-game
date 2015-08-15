@@ -215,7 +215,7 @@ var playerClass = function() {
 
     // Similar to the audio arrays defined elsewhere, above.
     this.audio = [];
-    this.audio[0] = new Audio('audio/pvz-music.mp3');
+    this.audio[0] = new Audio('audio/pvz-gardenwarfare.mp3');
     this.audio[1] = new Audio('audio/pvz-yeehaa.mp3');
 
     // Here, an 'ended' event is listened for so music can be looped.
