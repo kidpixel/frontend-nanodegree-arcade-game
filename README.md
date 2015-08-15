@@ -7,7 +7,10 @@ HOW TO LOAD THE GAME:
 1) Download or clone the repository here:
 https://github.com/kidpixel/frontend-nanodegree-arcade-game.git
 
-2) Navigate to the "frontend-nanodegree-arcade-game" folder and double-click/open the index.html file.  This will open your default browser and load the game.
+2) Navigate to the "frontend-nanodegree-arcade-game" folder and double-click/open the index.html file.  This will open your default browser and load the game.  
+
+Alternatively, you may go to this URL to see it live:
+http://kidpixel.github.io/frontend-nanodegree-arcade-game/ 
 
 3) You're ready to play the game!  See controls below.
 
