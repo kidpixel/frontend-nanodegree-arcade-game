@@ -1,3 +1,28 @@
+/* Front-End Web Developer Nanodegree - P3: Frogger Clone
+ * Student: CJ.Jonson / GH: Kidtexel
+ * Last Modified: 2015.8.15 ~10:20am
+ * 
+ * Comments: 
+ * This code is part of the third FEND project, classic arcade game clone.
+ * After getting the basic functionality down, I wanted to show my son
+ * how I could make programming fun.  Recently he's been playing Plants vs.
+ * Zombies 2, so I incorporated a "Zomboni" enemy vehicle instead of the 
+ * crawling ladybug enemies... and since PvZ zombies always go from right
+ * to left, I reversed the enemy flow accordingly.  Crazy Dave's taco 
+ * obsession is also funny so I added a taco "gem" object and then a sound
+ * track and sound effects for fun!
+ * 
+ * Latest Modifications: 
+ *  - Ran code through JSHint and JSBeautifier
+ *  - Took comment and README feedback to heart and re-did almost
+ *    all of the comments by either repositioning/re-writing for a 
+ *    (hopefully) Udacious "exceeds specs" result.
+ *
+ * Possible future updates: 
+ *  - Lives counter, taco fill bar to a power-up.
+ *  - Intro screen or header image
+ */
+
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
