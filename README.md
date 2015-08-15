@@ -1,6 +1,39 @@
 frontend-nanodegree-arcade-game
 ===============================
 
-Students should use this rubric: https://www.udacity.com/course/viewer#!/c-ud015/l-3072058665/m-3072588797
+Doctor Zomboss has sent a special
+horde of minions sporting new rides!
 
-for self-checking their submission.
+Indeed, these Zomboni warriors are
+not to be taken lightly!
+
+Guide Crazy Dave from the bottom-right
+of the 6x6 game screen to the top row.
+BE WARNED! Although Crazy Dave has 
+special shoes made for walking on ice, 
+some of the Zombonis are WICKED FAST!
+
+RED Zombonis are angry and the FASTEST.
+YELLOW Zombonis are a moderate speed.
+GREEN Zombonis are slow and nearly blind.
+
+Taco! TACO?
+Of course!  Crazy Dave went all-out 
+trying to get another crack at his taco
+in Plants vs Zombies 2.  
+A tear in the time-space continuum has
+allowed his taco to reappear at random
+along the game board for Crazy Dave to
+re-eat again and again!
+
+...
+
+NEW FEATURES: 
+- Customized ice, grass, & stone tiles.
+- PvZ2 sprites: Zombonis & CRAZY DAVE!
+- PvZ2 soundtrack and sound effects!
+- Reverse monster direction (R to L)
+- 3-tiered colored Zombonie enemies
+- Dave can do a double take looking
+  both left and right based on 
+  direction travelled. 
