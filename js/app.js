@@ -3,6 +3,8 @@ var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
+    this.killSound = new Audio('audio/pvz-crazydave-win.mp3');
+
     // Functional block areas are 101x83 pixels according to my Photoshopping
     // x position ... -100 is left off screen starting position
     // 101 (above) times 5 is 505, so I'll send the off screen ones back after x > 505
@@ -71,6 +73,7 @@ Enemy.prototype.update = function(dt) {
      */
     if ( (Math.abs(player.x-this.x)<80) && (player.y === (this.y+13)) ) {
         console.log('Collision. ' + this.x + '(' + Math.round(this.x) +') '+ this.y + '(' + (this.y+13) +')'); // this debugging line kept me sane
+        this.killSound.play();
         player.reset();
     }
 
@@ -85,6 +88,15 @@ Enemy.prototype.render = function() {
 
 var gemClass = function() {
     console.log('gemclass');
+    this.audio = [];
+    this.audio[0] = new Audio('audio/pvz-crazydave-mumbling.mp3');
+    this.audio[1] = new Audio('audio/pvz-crazydave-win.mp3');
+    this.audio[2] = new Audio('audio/pvz-music.mp3');
+    this.audio[3] = new Audio('audio/pvz-tacocrunch.mp3');
+    this.audio[4] = new Audio('audio/pvz-yeehaa.mp3');
+    this.audio[5] = new Audio('audio/pvz-zombiescoming.mp3');
+
+    this.audio[5].play();
     //this.winBool = bool;
     this.enitX = 404; // Starting x value for taco. 
     this.speed = 0; 
@@ -107,6 +119,7 @@ gemClass.prototype.update = function (dt) {
     console.log('update'); 
     if ( (Math.abs(player.x-this.x)<50) && (player.y === (this.y+13)) ) {
     console.log('TACOLLISION. ' + this.x + '(' + Math.round(this.x) +') '+ this.y + '(' + (this.y+13) +')'); 
+    this.audio[3].play(); 
     // player.reset();  in this case don't reset player, but increment a 'tacowin'
     this.reset();   
     } 
@@ -121,12 +134,27 @@ gemClass.prototype.render = function () {
 // a handleInput() method.
 var playerClass = function() {
     this.hero = 'images/char-crazydave-left.png';
+    this.audio = [];
+    this.audio[0] = new Audio('audio/pvz-crazydave-mumbling.mp3');
+    this.audio[1] = new Audio('audio/pvz-crazydave-win.mp3');
+    this.audio[2] = new Audio('audio/pvz-music.mp3');
+    this.audio[3] = new Audio('audio/pvz-tacocrunch.mp3');
+    this.audio[4] = new Audio('audio/pvz-yeehaa.mp3');
+    this.audio[5] = new Audio('audio/pvz-zombiescoming.mp3');
+
+    this.audio[2].addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    this.audio[2].play();
+    /*
     myAudio = new Audio('audio/pvz-music.mp3'); 
     myAudio.addEventListener('ended', function() {
         this.currentTime = 0;
         this.play();
     }, false);
     myAudio.play();
+    */   // working code for background music
     this.initX = 505;
     this.initY = 405; 
     this.reset();
@@ -167,6 +195,7 @@ playerClass.prototype.handleInput = function(allowedKeys) {
     if(allowedKeys === 'up') { this.y = this.y - 83 };
 
     if(this.y < 50) { 
+        this.audio[4].play(); // yehaa
         this.reset();
         console.log("Victory!");
     }
