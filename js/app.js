@@ -85,7 +85,8 @@ Enemy.prototype.render = function() {
 
 var gemClass = function() {
     console.log('gemclass');
-    this.enitX = 400;
+    //this.winBool = bool;
+    this.enitX = 404; // Starting x value for taco. 
     this.speed = 0; 
     this.sprite = 'images/gem-daves-taco.png'; 
     this.reset();
@@ -94,8 +95,8 @@ var gemClass = function() {
 gemClass.prototype.reset = function () {
     console.log('reset');
     var eRows = [60,143,309];  // 226 old third row value
-    // Move the taco along the x-axis on reset
-    this.x = this.enitX - (101*Math.round(Math.random()*5)); 
+    // Move the taco along the x-axis on reset 101 to 404 to the left of enitX
+    this.x = this.enitX - (101*Math.round(Math.random()*3)); 
     // Reverence: Math.round(Math.random()*2)  does 0-2, so 3 values
     this.y = eRows[Math.round(Math.random()*2)];  
 }
