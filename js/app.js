@@ -105,10 +105,9 @@ gemClass.prototype.reset = function () {
 // Collision gets calculated here
 gemClass.prototype.update = function (dt) {
     console.log('update'); 
-    if ( (Math.abs(player.x-this.x)<80) && (player.y === (this.y+13)) ) {
-    console.log('Collision. ' + this.x + '(' + Math.round(this.x) +') '+ this.y + '(' + (this.y+13) +')'); 
+    if ( (Math.abs(player.x-this.x)<50) && (player.y === (this.y+13)) ) {
+    console.log('TACOLLISION. ' + this.x + '(' + Math.round(this.x) +') '+ this.y + '(' + (this.y+13) +')'); 
     // player.reset();  in this case don't reset player, but increment a 'tacowin'
-    console.log('Taco!');
     this.reset();   
     } 
 }
@@ -176,8 +175,9 @@ console.log('Player ' + this.x + ' ' + this.y); // For player debug purposes
 
 var allEnemies = [];
 for(var enemies = 0; enemies < 8; enemies++) {
+    // Placing the taco first in array sends it to the 'back' of the stack.
+    if (enemies === 0) { allEnemies.push(new gemClass)};
     allEnemies.push(new Enemy());
-    if (enemies === 7) { allEnemies.push(new gemClass)};
 } // After creating the array of enemies, create a few and push instances of Enemy object into it.
 
 var player = new playerClass;
