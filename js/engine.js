@@ -178,7 +178,8 @@ var Engine = (function(global) {
         'images/enemy-zomboni-red.png',
         'images/enemy-zomboni-yellow.png',
         'images/enemy-zomboni-green.png',
-        'images/ice-block.png'
+        'images/ice-block.png', 
+        'images/gem-daves-taco.png'
     ]);
     Resources.onReady(init);
 

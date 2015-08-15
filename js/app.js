@@ -34,7 +34,7 @@ Enemy.prototype.setSprite = function() {
     } else if (this.speed <= 119 && this.speed >= 0) {
         this.sprite = 'images/enemy-zomboni-green.png';
     }
-    return this.sprite;
+    return this.sprite; 
 };
 
 Enemy.prototype.initializeY = function () {
@@ -63,7 +63,12 @@ Enemy.prototype.update = function(dt) {
     }
 
     // Check Enemy vs Player collision here instead.
-    // Since the blocks are 101 wide, check to see if this current enemy is less than a block away from the player, then also check to see if the player and the enemy are on the same "y" level.  UPDATE: Changing it to 80 or less to make it closer to player width instead.   Around 50-ish seems to be where it feels good yet still collides.
+    /* Since the blocks are 101 wide, check to see if this current enemy is less than 
+     * a block away from the player, then also check to see if player and the enemy 
+     * are on the same "y" level.  UPDATE: Changing it to 80 or less to make it closer 
+     * to player width instead.  Around 50-ish seems to be where it feels good yet 
+     * still collides.
+     */
     if ( (Math.abs(player.x-this.x)<80) && (player.y === (this.y+13)) ) {
         console.log('Collision. ' + this.x + '(' + Math.round(this.x) +') '+ this.y + '(' + (this.y+13) +')'); // this debugging line kept me sane
         player.reset();
@@ -75,6 +80,41 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
+
+// functions to make: reset update render... 
+
+var gemClass = function() {
+    console.log('gemclass');
+    this.enitX = 400;
+    this.speed = 0; 
+    this.sprite = 'images/gem-daves-taco.png'; 
+    this.reset();
+}
+// Sets speed, x, calls for y, and sets sprite image
+gemClass.prototype.reset = function () {
+    console.log('reset');
+    var eRows = [60,143,309];  // 226 old third row value
+    // Move the taco along the x-axis on reset
+    this.x = this.enitX - (101*Math.round(Math.random()*5)); 
+    // Reverence: Math.round(Math.random()*2)  does 0-2, so 3 values
+    this.y = eRows[Math.round(Math.random()*2)];  
+}
+
+// 
+// Collision gets calculated here
+gemClass.prototype.update = function (dt) {
+    console.log('update'); 
+    if ( (Math.abs(player.x-this.x)<80) && (player.y === (this.y+13)) ) {
+    console.log('Collision. ' + this.x + '(' + Math.round(this.x) +') '+ this.y + '(' + (this.y+13) +')'); 
+    // player.reset();  in this case don't reset player, but increment a 'tacowin'
+    console.log('Taco!');
+    this.reset();   
+    } 
+}
+
+gemClass.prototype.render = function () {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+} 
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -136,11 +176,12 @@ console.log('Player ' + this.x + ' ' + this.y); // For player debug purposes
 var allEnemies = [];
 for(var enemies = 0; enemies < 8; enemies++) {
     allEnemies.push(new Enemy());
+    if (enemies === 7) { allEnemies.push(new gemClass)};
 } // After creating the array of enemies, create a few and push instances of Enemy object into it.
 
 var player = new playerClass;
-var gem = new Enemy;
-console.log(gem);
+var gem = new gemClass;
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
