@@ -88,16 +88,14 @@ Enemy.prototype.render = function() {
 
 var gemClass = function() {
     console.log('gemclass');
-    this.audio = [];
-    this.audio[0] = new Audio('audio/pvz-crazydave-mumbling.mp3');
-    this.audio[1] = new Audio('audio/pvz-crazydave-win.mp3');
-    this.audio[2] = new Audio('audio/pvz-music.mp3');
-    this.audio[3] = new Audio('audio/pvz-tacocrunch.mp3');
-    this.audio[4] = new Audio('audio/pvz-yeehaa.mp3');
-    this.audio[5] = new Audio('audio/pvz-zombiescoming.mp3');
 
-    this.audio[5].play();
-    //this.winBool = bool;
+    /*  Similar to the single audio object above, here in gemClass and also 
+     *  in the playerClass, a small array of audio objects is created.
+     */
+    this.audio = [];
+    this.audio[0] = new Audio('audio/pvz-tacocrunch.mp3');
+    this.audio[1] = new Audio('audio/pvz-zombiescoming.mp3');
+    this.audio[1].play(); 
     this.enitX = 404; // Starting x value for taco. 
     this.speed = 0; 
     this.sprite = 'images/gem-daves-taco.png'; 
@@ -119,7 +117,7 @@ gemClass.prototype.update = function (dt) {
     console.log('update'); 
     if ( (Math.abs(player.x-this.x)<50) && (player.y === (this.y+13)) ) {
     console.log('TACOLLISION. ' + this.x + '(' + Math.round(this.x) +') '+ this.y + '(' + (this.y+13) +')'); 
-    this.audio[3].play(); 
+    this.audio[0].play(); // play taco crunch sound
     // player.reset();  in this case don't reset player, but increment a 'tacowin'
     this.reset();   
     } 
@@ -135,18 +133,14 @@ gemClass.prototype.render = function () {
 var playerClass = function() {
     this.hero = 'images/char-crazydave-left.png';
     this.audio = [];
-    this.audio[0] = new Audio('audio/pvz-crazydave-mumbling.mp3');
-    this.audio[1] = new Audio('audio/pvz-crazydave-win.mp3');
-    this.audio[2] = new Audio('audio/pvz-music.mp3');
-    this.audio[3] = new Audio('audio/pvz-tacocrunch.mp3');
-    this.audio[4] = new Audio('audio/pvz-yeehaa.mp3');
-    this.audio[5] = new Audio('audio/pvz-zombiescoming.mp3');
+    this.audio[0] = new Audio('audio/pvz-music.mp3');
+    this.audio[1] = new Audio('audio/pvz-yeehaa.mp3');
 
-    this.audio[2].addEventListener('ended', function() {
+    this.audio[0].addEventListener('ended', function() {
         this.currentTime = 0;
         this.play();
     }, false);
-    this.audio[2].play();
+    this.audio[0].play();
     /*
     myAudio = new Audio('audio/pvz-music.mp3'); 
     myAudio.addEventListener('ended', function() {
@@ -195,7 +189,7 @@ playerClass.prototype.handleInput = function(allowedKeys) {
     if(allowedKeys === 'up') { this.y = this.y - 83 };
 
     if(this.y < 50) { 
-        this.audio[4].play(); // yehaa
+        this.audio[1].play(); // yehaa
         this.reset();
         console.log("Victory!");
     }
