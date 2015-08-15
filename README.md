@@ -16,8 +16,8 @@ HOW TO PLAY THE GAME:
 Use the Arrow Keys to navigate Crazy
 Dave Up-Down-Left-Right.
 
-		[Up]
-[Left] [Down] [Right]
+				[Up]
+		[Left] [Down] [Right]
 
 
 GAME DESCRIPTION: 
