@@ -124,7 +124,7 @@ Enemy.prototype.update = function(dt) {
      * to player width instead.  Around 50-ish seems to be where it feels good yet 
      * still collides.
      */
-    if ((Math.abs(player.x - this.x) < 80) && (player.y === (this.y + 13))) {
+    if ((Math.abs(player.x - this.x) < 50) && (player.y === (this.y + 13))) {
 
         /* (Debugging comment) Match values to 73, 156, and 239... 
          * 13 apart for collision calculation. This kept me sane.
